@@ -1,16 +1,19 @@
 # Secure Eraser
 
-A cryptographically secure file erasure application with advanced verification and reporting capabilities.
+A cryptographically secure file erasure application with advanced verification, reporting capabilities, and performance optimizations.
 
 ## Features
 
 - Multiple secure deletion methods (Standard, DoD 5220.22-M, Gutmann, Paranoid)
 - Cryptographic verification using multiple hash algorithms
 - Detailed reports in JSON, HTML, and PDF formats with visualizations
-- Multi-threaded free space wiping
+- Multi-threaded processing with batch file capabilities
+- GPU acceleration for faster wiping operations (when available)
+- Dynamic resource optimization based on system capabilities
+- Pause/resume capability for long-running operations
 - Support for files, directories, free space, and entire drives
 - Digital report signing
-- Comprehensive logging
+- Comprehensive logging and performance monitoring
 
 ## Installation
 
@@ -23,7 +26,7 @@ pip install secure-eraser
 ### From source
 
 ```bash
-git clone https://github.com/nitestryker/secure-eraser.git
+git clone https://github.com/username/secure-eraser.git
 cd secure-eraser
 pip install -e .
 ```
@@ -68,6 +71,28 @@ python secure_eraser.py --file /path/to/file.txt --verify --sign-report --report
 python secure_eraser.py --file /path/to/file.txt --verbose --log-file eraser.log
 ```
 
+### Performance Optimization
+
+```bash
+# Process multiple files from a batch file with GPU acceleration
+python secure_eraser.py --batch file_list.txt --gpu --workers 4
+
+# Enable dynamic resource optimization for system-aware performance
+python secure_eraser.py --file large_file.bin --optimize-resources
+
+# Set custom chunk size for memory efficiency
+python secure_eraser.py --file huge_file.bin --chunk-size 50
+
+# Resume a paused operation
+python secure_eraser.py --job-id abc123def456
+
+# List all available jobs
+python secure_eraser.py --list-jobs
+
+# Cancel a running job
+python secure_eraser.py --cancel-job abc123def456
+```
+
 ## Wiping Methods
 
 - **Standard**: Basic multi-pass overwrite with random data (default 3 passes)
@@ -108,6 +133,8 @@ Reports include:
 - jinja2 (for HTML templates)
 - py-cpuinfo (for system information)
 - psutil (for system monitoring)
+- pycuda (optional, for GPU acceleration)
+- numpy (for data processing and GPU acceleration)
 
 ## License
 

@@ -2,6 +2,15 @@
 
 All notable changes to the Secure Eraser project will be documented in this file.
 
+## [v1.1.0] - 2025-04-06
+
+### Added
+- Batch processing capability for efficiently handling multiple files and directories
+- GPU acceleration support for faster wiping of large drives
+- Smart dynamic resource optimization based on system capabilities
+- Pause/resume functionality for long-running wiping operations
+- Job management system for tracking, pausing, and resuming operations
+
 ## [v1.0.0] - 2025-04-06
 
 ### Added
