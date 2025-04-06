@@ -16,6 +16,7 @@ from secure_eraser_pkg.core.performance.batch_processing import BatchProcessor
 from secure_eraser_pkg.core.performance.resource_optimizer import ResourceOptimizer
 from secure_eraser_pkg.core.performance.gpu_acceleration import GPUAccelerator
 from secure_eraser_pkg.core.performance.pause_resume import JobManager, WipingJob
+from secure_eraser_pkg.core.security.custom_patterns import CustomPatternManager
 
 
 def parse_arguments():
@@ -42,8 +43,24 @@ def parse_arguments():
     # Wiping method
     method_group = parser.add_argument_group("Wiping Method")
     method_group.add_argument('--passes', type=int, default=3, help='Number of overwrite passes (default: 3)')
-    method_group.add_argument('--method', choices=['standard', 'dod', 'gutmann', 'paranoid'], 
-                              default='standard', help='Wiping method: standard, dod, gutmann, or paranoid (default: standard)')
+    method_group.add_argument('--method', 
+                             choices=['standard', 'dod', 'gutmann', 'paranoid', 
+                                      'nist_clear', 'nist_purge', 'dod_3pass', 'dod_7pass', 
+                                      'hmg_is5_baseline', 'hmg_is5_enhanced', 'navso', 
+                                      'afssi', 'ar_380_19', 'csc'], 
+                             default='standard', 
+                             help='Wiping method: standard, dod, gutmann, paranoid, or military standards:\n'
+                                  'nist_clear, nist_purge (NIST SP 800-88),\n'
+                                  'dod_3pass, dod_7pass (DoD 5220.22-M variants),\n'
+                                  'hmg_is5_baseline, hmg_is5_enhanced (UK Government),\n'
+                                  'navso (US Navy), afssi (Air Force), ar_380_19 (Army),\n'
+                                  'csc (NSA CSC-STD-005-85)\n'
+                                  '(default: standard)')
+    method_group.add_argument('--custom-pattern', help='Use a custom wiping pattern (name of pattern in config)')
+    method_group.add_argument('--create-pattern', help='Create a new custom wiping pattern with the given name')
+    method_group.add_argument('--pattern-hex', help='Hex string for custom pattern (used with --create-pattern)')
+    method_group.add_argument('--delete-pattern', help='Delete a custom wiping pattern by name')
+    method_group.add_argument('--list-patterns', action='store_true', help='List all available wiping patterns')
     
     # Performance options
     performance_group = parser.add_argument_group("Performance")
@@ -91,6 +108,16 @@ def parse_arguments():
   # Wipe free space on a drive using Gutmann method
   python secure_eraser.py --freespace /path/to/drive --method gutmann
   
+  # Use military-grade wiping standards (NIST SP 800-88)
+  python secure_eraser.py --file classified.doc --method nist_purge
+  
+  # Use Department of Defense 7-pass standard
+  python secure_eraser.py --file secret.dat --method dod_7pass --verify
+  
+  # Create and use a custom wiping pattern
+  python secure_eraser.py --create-pattern my_pattern --pattern-hex "DEADBEEF"
+  python secure_eraser.py --file sensitive.txt --custom-pattern my_pattern
+  
   # Securely delete a file with cryptographic verification
   python secure_eraser.py --file /path/to/file.txt --verify --report-path report.json
   
@@ -103,11 +130,14 @@ def parse_arguments():
   # Use verbose logging and save logs to a file
   python secure_eraser.py --file /path/to/file.txt --verbose --log-file eraser.log
   
-  # Wipe an entire drive (DANGEROUS!)
-  python secure_eraser.py --drive /path/to/drive --method paranoid --force
+  # Wipe an entire drive with NSA standard (DANGEROUS!)
+  python secure_eraser.py --drive /path/to/drive --method csc --force
   
   # Process a batch of files with GPU acceleration
   python secure_eraser.py --batch file_list.txt --gpu --workers 4
+  
+  # List all available wiping patterns
+  python secure_eraser.py --list-patterns
   
   # Resume a paused job
   python secure_eraser.py --job-id abc123def456
@@ -200,6 +230,119 @@ def handle_batch_processing(args, logger):
         result = result and (dir_stats["errors"] == 0)
     
     return result
+
+
+def handle_pattern_operations(args, logger):
+    """
+    Handle pattern-related operations (create, list, delete).
+    
+    Args:
+        args: Command-line arguments
+        logger: Logger instance
+        
+    Returns:
+        True if an operation was handled, False otherwise
+    """
+    # Check if we need to handle pattern operations
+    if not any([args.create_pattern, args.delete_pattern, args.list_patterns]):
+        return False
+        
+    try:
+        # Initialize the custom patterns handler
+        patterns = CustomPatternManager(logger=logger)
+        
+        if args.list_patterns:
+            # List all available patterns
+            all_patterns = patterns.format_patterns_list()
+            
+            print("\nAvailable Wiping Patterns:")
+            print("--------------------------")
+            
+            # First list built-in methods
+            print("\nBuilt-in Methods:")
+            print("  - standard: Standard Random Data (default)")
+            print("  - dod: DoD 5220.22-M (3-pass)")
+            print("  - gutmann: Gutmann 35-pass Method")
+            print("  - paranoid: Paranoid Enhanced Method")
+            
+            # Then list military standards
+            print("\nMilitary Standards:")
+            print("  - nist_clear: NIST SP 800-88 Clear (1-pass zeros)")
+            print("  - nist_purge: NIST SP 800-88 Purge (1-pass ones)")
+            print("  - dod_3pass: DoD 5220.22-M (3-pass)")
+            print("  - dod_7pass: DoD 5220.22-M (7-pass)")
+            print("  - hmg_is5_baseline: HMG IS5 Baseline (UK Government)")
+            print("  - hmg_is5_enhanced: HMG IS5 Enhanced (UK Government)")
+            print("  - navso: NAVSO P-5239-26 (US Navy)")
+            print("  - afssi: AFSSI 5020 (Air Force)")
+            print("  - ar_380_19: AR 380-19 (Army)")
+            print("  - csc: CSC-STD-005-85 (NSA)")
+            
+            # List available generators for custom patterns
+            generators = patterns.get_available_generators()
+            print("\nAvailable Pattern Generators:")
+            for gen_name, gen_desc in generators.items():
+                print(f"  - {gen_name}: {gen_desc}")
+            
+            # List custom patterns if any
+            if all_patterns:
+                print("\nCustom Patterns:")
+                for name, info in all_patterns.items():
+                    if info['type'] == 'bytes':
+                        print(f"  - {name}: {info['description'] or 'Custom byte pattern'} ({info['size']} bytes)")
+                        print(f"    Preview: {info['preview']}")
+                    else:
+                        print(f"  - {name}: {info['description'] or 'Multi-pass pattern'} ({info['passes']} passes)")
+                        
+            else:
+                print("\nNo custom patterns defined.")
+                
+            print("\nUse --create-pattern to add a new custom pattern.")
+            return True
+            
+        elif args.create_pattern:
+            # Create a new custom pattern
+            if not args.pattern_hex:
+                logger.error("To create a custom pattern, you must provide a hex string with --pattern-hex")
+                return True
+                
+            pattern_name = args.create_pattern
+            pattern_hex = args.pattern_hex
+            
+            # Try to create the pattern
+            success = patterns.create_hex_pattern(pattern_name, pattern_hex, 
+                                                 description=f"Custom pattern created on {time.ctime()}")
+            
+            if success:
+                logger.info(f"Custom pattern '{pattern_name}' created successfully")
+                print(f"Pattern '{pattern_name}' created. Use --custom-pattern {pattern_name} to use it.")
+            else:
+                logger.error(f"Failed to create custom pattern '{pattern_name}'")
+                
+            return True
+            
+        elif args.delete_pattern:
+            # Delete a custom pattern
+            pattern_name = args.delete_pattern
+            
+            # Try to delete the pattern
+            success = patterns.delete_pattern(pattern_name)
+            
+            if success:
+                logger.info(f"Custom pattern '{pattern_name}' deleted successfully")
+            else:
+                logger.error(f"Failed to delete pattern '{pattern_name}'. Pattern not found.")
+                
+            return True
+            
+    except ImportError as e:
+        logger.error(f"Error loading custom patterns module: {e}")
+        return True
+    except Exception as e:
+        logger.error(f"Error handling pattern operations: {e}")
+        return True
+        
+    return False
 
 
 def handle_job_operations(args, logger):
@@ -322,7 +465,12 @@ def main():
     # Set up logging
     logger = setup_logging(log_level, args.log_file)
     
-    # Handle job operations first
+    # Handle pattern operations first
+    if handle_pattern_operations(args, logger):
+        # A pattern operation was performed, no need for further processing
+        return 0
+    
+    # Handle job operations next
     if handle_job_operations(args, logger):
         # A job operation was performed, no need for further processing
         return 0

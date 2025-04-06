@@ -1,0 +1,226 @@
+{
+  "verification_report": {
+    "title": "Secure Erasure Verification Report",
+    "timestamp": "2025-04-06T17:59:19.894277",
+    "wiping_method": "standard",
+    "passes": 3,
+    "verification_enabled": true,
+    "algorithms_used": [
+      "sha256",
+      "sha3_256"
+    ],
+    "system_info": {
+      "timestamp": "2025-04-06T17:59:19.748916",
+      "hostname": "65465c98d17f",
+      "platform": "Linux",
+      "platform_version": "#1-NixOS SMP PREEMPT_DYNAMIC Tue Jan  1 00:00:00 UTC 1980",
+      "architecture": "x86_64",
+      "python_version": "3.11.10",
+      "cpu_info": {
+        "count": 8,
+        "physical_count": 4,
+        "percent": 21.5,
+        "brand": "Unknown"
+      },
+      "memory_total": 62.80537033081055,
+      "memory_available": 3.3904953002929688,
+      "disk_info": {
+        "/nix": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 32.0,
+          "used": 0.00403594970703125,
+          "free": 31.483177185058594,
+          "percent": 0.0
+        },
+        "/pid2": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/repl": {
+          "device": "/dev/nbd88",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,nobarrier,ssd,space_cache=v2,subvolid=256,subvol=/working_subv",
+          "total": 32.0,
+          "used": 0.00403594970703125,
+          "free": 31.483177185058594,
+          "percent": 0.0
+        },
+        "/etc/localtime": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/etc/hosts": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/etc/.gitignore": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/mnt/scratch": {
+          "device": "/dev/nbd88",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,nobarrier,ssd,space_cache=v2,subvolid=256,subvol=/working_subv",
+          "total": 32.0,
+          "used": 0.00403594970703125,
+          "free": 31.483177185058594,
+          "percent": 0.0
+        },
+        "/etc/zoneinfo": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/mnt/nixmodules": {
+          "device": "/dev/disk/by-id/google-nixmodules-6308cfa-us-east1-d",
+          "fstype": "squashfs",
+          "opts": "ro,nosuid,nodev,relatime,errors=continue,threads=single",
+          "total": 13.654296875,
+          "used": 13.654296875,
+          "free": 0.0,
+          "percent": 100.0
+        },
+        "/etc/nix": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/etc/nixmodules": {
+          "device": "/dev/disk/by-id/google-nixmodules-6308cfa-us-east1-d",
+          "fstype": "squashfs",
+          "opts": "ro,nosuid,nodev,relatime,errors=continue,threads=single",
+          "total": 13.654296875,
+          "used": 13.654296875,
+          "free": 0.0,
+          "percent": 100.0
+        },
+        "/etc/direnv": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/etc/resolv.conf": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/etc/hostname": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/etc/replit": {
+          "device": "/dev/disk/by-label/nixos",
+          "fstype": "ext4",
+          "opts": "ro,relatime",
+          "total": 49.1260871887207,
+          "used": 23.0802001953125,
+          "free": 23.976089477539062,
+          "percent": 49.0
+        },
+        "/tmp": {
+          "device": "/dev/nbd88",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,nobarrier,ssd,space_cache=v2,subvolid=256,subvol=/working_subv",
+          "total": 32.0,
+          "used": 0.00403594970703125,
+          "free": 31.483177185058594,
+          "percent": 0.0
+        },
+        "/run": {
+          "device": "/dev/nbd88",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,nobarrier,ssd,space_cache=v2,subvolid=256,subvol=/working_subv",
+          "total": 32.0,
+          "used": 0.00403594970703125,
+          "free": 31.483177185058594,
+          "percent": 0.0
+        },
+        "/run/replit/socks": {
+          "device": "/dev/nbd88",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,nobarrier,ssd,space_cache=v2,subvolid=256,subvol=/working_subv",
+          "total": 32.0,
+          "used": 0.00403594970703125,
+          "free": 31.483177185058594,
+          "percent": 0.0
+        },
+        "/home/runner/workspace": {
+          "device": "/dev/nbd17",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,ssd,flushoncommit,discard=async,space_cache=v2,commit=60,subvolid=256,subvol=/working_subv",
+          "total": 256.0,
+          "used": 0.2112579345703125,
+          "free": 253.7870330810547,
+          "percent": 0.1
+        },
+        "/mnt/nix": {
+          "device": "/dev/nbd17",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,ssd,flushoncommit,discard=async,space_cache=v2,commit=60,subvolid=257,subvol=/nix",
+          "total": 256.0,
+          "used": 0.2112579345703125,
+          "free": 253.7870330810547,
+          "percent": 0.1
+        },
+        "/nix/var": {
+          "device": "/dev/nbd17",
+          "fstype": "btrfs",
+          "opts": "rw,noatime,ssd,flushoncommit,discard=async,space_cache=v2,commit=60,subvolid=257,subvol=/nix",
+          "total": 256.0,
+          "used": 0.2112579345703125,
+          "free": 253.7870330810547,
+          "percent": 0.1
+        }
+      }
+    },
+    "items": [],
+    "summary": {
+      "files_wiped": 0,
+      "total_bytes_wiped": 0,
+      "verified_items": 0
+    }
+  }
+}
