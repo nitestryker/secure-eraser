@@ -602,13 +602,25 @@ def main():
             # Add system and performance information to the report
             report_data = eraser.verification_data
             
+            # Get system information for the report
+            from secure_eraser_pkg.utils.system_info import get_system_info
+            system_info = get_system_info()
+            
             # Generate the report
+            # Prepare signature info if signing was requested
+            signature_info = None
+            if hasattr(args, 'sign_report') and args.sign_report:
+                signature_info = {
+                    "signed": True,
+                    "key": args.signature_key.encode() if hasattr(args, 'signature_key') and args.signature_key else None
+                }
+                
             report_file = generate_report(
+                args.report_format,
                 report_data,
-                output_path=args.report_path,
-                report_format=args.report_format,
-                sign_report=args.sign_report,
-                signature_key=args.signature_key.encode() if args.signature_key else None
+                args.report_path,
+                signature=signature_info,
+                system_info=system_info
             )
             
             logger.info(f"Report saved to {report_file}")
