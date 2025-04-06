@@ -33,11 +33,20 @@ def index():
     <body data-bs-theme="dark">
         <div class="container">
             <h1 class="mb-4">Secure File Eraser</h1>
-            <p class="lead">This is a simple web interface for the Secure Eraser tool.</p>
+            <p class="lead">A cryptographically secure file erasure application with military-grade security standards and custom patterns.</p>
             
             <div class="alert alert-warning">
                 <strong>Note:</strong> This is a demo interface. For security-critical operations, 
                 please use the command-line tool directly.
+            </div>
+            
+            <div class="alert alert-info">
+                <strong>New Features:</strong> 
+                <ul>
+                    <li>Military-grade security standards (NIST 800-88, HMG IS5, DoD variants)</li>
+                    <li>Custom wiping pattern support with user-defined hex patterns</li>
+                    <li>Enhanced verification and detailed HTML/PDF reports</li>
+                </ul>
             </div>
             
             <div class="card mb-4">
@@ -68,6 +77,7 @@ def demo():
     cmd = [
         'python', 'secure_eraser.py',
         '--file', temp_path,
+        '--method', 'nist_purge',  # Use NIST SP 800-88 Purge standard
         '--verify',
         '--report-format', 'html',
         '--report-path', report_path,
@@ -127,7 +137,12 @@ def demo():
         </head>
         <body data-bs-theme="dark">
             <div class="container">
-                <h1 class="mb-4">Secure Eraser Demo</h1>
+                <h1 class="mb-4">Secure Eraser Demo - NIST 800-88 Purge Standard</h1>
+                <div class="alert alert-info mb-4">
+                    <strong>Using Military-Grade Standard:</strong> 
+                    This demo uses the NIST SP 800-88 Purge standard for secure data erasure, 
+                    which is recommended for sanitizing media containing sensitive information.
+                </div>
                 
                 <div class="card mb-4">
                     <div class="card-header">
