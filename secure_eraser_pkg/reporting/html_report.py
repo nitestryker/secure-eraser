@@ -36,28 +36,35 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             --danger-color: #dc3545;
             --light-color: #f8f9fa;
             --dark-color: #343a40;
+            --bg-color: #212529;
+            --text-color: #e9ecef;
+            --container-bg: #2c3034;
+            --border-color: #495057;
+            --table-header-bg: #0d6efd;
+            --table-odd-row: #343a40;
+            --table-even-row: #3e444a;
         }
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            color: #333;
-            background-color: #f4f4f4;
+            color: var(--text-color);
+            background-color: var(--bg-color);
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--container-bg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             border-radius: 5px;
         }
         .header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
         .verification-info {
             display: flex;
@@ -72,6 +79,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .info-label {
             font-weight: bold;
             margin-right: 10px;
+            color: var(--primary-color);
         }
         table {
             width: 100%;
@@ -79,18 +87,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             margin-bottom: 20px;
         }
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
         }
         th, td {
             padding: 12px;
             text-align: left;
         }
         th {
-            background-color: var(--primary-color);
+            background-color: var(--table-header-bg);
             color: white;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: var(--table-even-row);
+        }
+        tr:nth-child(odd) {
+            background-color: var(--table-odd-row);
         }
         .status-success {
             color: var(--success-color);
@@ -103,7 +114,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .signature-section {
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-color);
         }
         .hash-table {
             font-size: 0.9em;
@@ -111,22 +122,27 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .chart-container {
             margin: 20px 0;
             text-align: center;
+            background-color: var(--container-bg);
+            padding: 15px;
+            border-radius: 5px;
         }
         .chart-image {
             max-width: 100%;
             height: auto;
+            border-radius: 5px;
         }
         .system-info {
             margin-top: 30px;
             padding: 15px;
-            background-color: #f8f9fa;
+            background-color: var(--table-odd-row);
             border-radius: 5px;
+            border: 1px solid var(--border-color);
         }
         .footer {
             margin-top: 40px;
             text-align: center;
             font-size: 0.8em;
-            color: #777;
+            color: var(--secondary-color);
         }
     </style>
 </head>
@@ -266,9 +282,24 @@ FALLBACK_HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <title>Secure Erasure Report</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
-        h1 { color: #333; }
-        pre { background-color: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #212529; 
+            color: #e9ecef; 
+        }
+        h1 { color: #0d6efd; }
+        pre { 
+            background-color: #343a40; 
+            color: #e9ecef;
+            padding: 15px; 
+            border-radius: 5px; 
+            overflow-x: auto; 
+            border: 1px solid #495057;
+        }
+        p { margin: 10px 0; }
     </style>
 </head>
 <body>
